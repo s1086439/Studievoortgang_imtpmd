@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.example.imtpmd1617.studievoortgang.Adapters.ModulesAdapter;
 import com.example.imtpmd1617.studievoortgang.R;
 
-public class ProfileModulesFragment extends Fragment {
+public class ProfilePropedeuseModulesFragment extends Fragment {
 
     @Nullable
     @Override

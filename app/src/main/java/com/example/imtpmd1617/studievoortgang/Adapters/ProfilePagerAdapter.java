@@ -6,7 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.imtpmd1617.studievoortgang.Fragment.ProfileFragment;
-import com.example.imtpmd1617.studievoortgang.Fragment.ProfileModulesFragment;
+import com.example.imtpmd1617.studievoortgang.Fragment.ProfileHoofdfaseModulesFragment;
+import com.example.imtpmd1617.studievoortgang.Fragment.ProfilePropedeuseModulesFragment;
 
 public class ProfilePagerAdapter extends FragmentPagerAdapter {
     public ProfilePagerAdapter(FragmentManager fm) {
@@ -25,9 +26,9 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new ProfileFragment();
             case 1:
-                return new ProfileModulesFragment();
+                return new ProfilePropedeuseModulesFragment();
             case 2:
-                return new ProfileFragment();
+                return new ProfileHoofdfaseModulesFragment();
             default:
                 return null;
         }
