@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         } else {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
             finish();
         }
     }

@@ -37,13 +37,12 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "test";
+                return "Studentgegevens";
             case 1:
-                return "test";
+                return "Propedeuse";
             case 2:
-                return "test";
-            default:
-                return null;
+                return "Hoofdfase";
         }
+        return null;
     }
 }
