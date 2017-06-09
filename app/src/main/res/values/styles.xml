@@ -10,4 +10,13 @@
 
     <style name="Studievoortgang" parent="AppTheme" />
 
+    <style name="Studievoortgang.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Studievoortgang.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Studievoortgang.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>
