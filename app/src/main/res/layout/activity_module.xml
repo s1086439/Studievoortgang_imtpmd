@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.imtpmd1617.studievoortgang.ModuleActivity">
+    tools:context="com.example.imtpmd1617.studievoortgang.Activities.ModuleActivity">
 
     <TextView
         android:id="@+id/courseName"

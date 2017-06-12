@@ -15,9 +15,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASEVERSION = 1;
     private static final String DATABASENAME = "imtpmd.db";
 
-    public DatabaseHelper(Context ctx) {
-        super(ctx, DATABASENAME, null, DATABASEVERSION);
+    public DatabaseHelper(Context ctx) {super(ctx, DATABASENAME, null, DATABASEVERSION);
     }
+
+
     public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version ){
         super(context,name,factory, version);
     }
@@ -32,16 +33,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + DatabaseInfo.CourseTables.COURSE + " (" +
+        db.execSQL("CREATE TABLE " + DatabaseInfo.Tables.MODULES + " (" +
             BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            DatabaseInfo.CourseColumn.NAME + " TEXT," +
-            DatabaseInfo.CourseColumn.ECTS + " TEXT," +
-            DatabaseInfo.CourseColumn.GRADE + " TEXT);"
+            DatabaseInfo.ModulesColumn.NAAM + " TEXT," +
+            DatabaseInfo.ModulesColumn.ECT + " TEXT);"
         );
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS "+ DatabaseInfo.CourseTables.COURSE);
+        db.execSQL("DROP TABLE IF EXISTS "+ DatabaseInfo.Tables.MODULES);
         onCreate(db);
     }
 

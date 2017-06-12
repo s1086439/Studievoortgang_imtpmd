@@ -27,7 +27,7 @@ public class ModulesAdapter extends ArrayAdapter<String> {
 
             moduleText.setText(module);
 
-            moduleText.setBackgroundColor(Color.parseColor("#88ff51"));
+            moduleText.setBackgroundColor(Color.parseColor("#d7ffb2"));
         }
         return convertView;
     }

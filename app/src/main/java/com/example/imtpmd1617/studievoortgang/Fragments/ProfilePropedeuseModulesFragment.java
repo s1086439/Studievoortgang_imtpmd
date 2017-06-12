@@ -11,11 +11,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TabHost;
-import android.widget.Toast;
 
 import com.example.imtpmd1617.studievoortgang.Adapters.ModulesAdapter;
-import com.example.imtpmd1617.studievoortgang.ModuleActivity;
+import com.example.imtpmd1617.studievoortgang.Activities.ModuleActivity;
 import com.example.imtpmd1617.studievoortgang.R;
 
 public class ProfilePropedeuseModulesFragment extends Fragment {

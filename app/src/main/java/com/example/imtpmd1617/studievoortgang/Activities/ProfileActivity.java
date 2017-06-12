@@ -1,4 +1,4 @@
-package com.example.imtpmd1617.studievoortgang;
+package com.example.imtpmd1617.studievoortgang.Activities;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.imtpmd1617.studievoortgang.Adapters.ProfilePagerAdapter;
+import com.example.imtpmd1617.studievoortgang.R;
 
 public class ProfileActivity extends AppCompatActivity {
 
