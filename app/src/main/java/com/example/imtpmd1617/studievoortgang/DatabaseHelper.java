@@ -14,6 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper mInstance;
     private static final int DATABASEVERSION = 1;
     private static final String DATABASENAME = "imtpmd.db";
+    private SQLiteDatabase db;
 
     public DatabaseHelper(Context ctx) {super(ctx, DATABASENAME, null, DATABASEVERSION);
     }
@@ -33,15 +34,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        this.db = db;
+        createTables();
+    }
+
+    public void createTables(){
         db.execSQL("CREATE TABLE " + DatabaseInfo.Tables.MODULES + " (" +
-            BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            DatabaseInfo.ModulesColumn.NAAM + " TEXT," +
-            DatabaseInfo.ModulesColumn.ECT + " TEXT);"
+                BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DatabaseInfo.ModulesColumn.NAAM + " TEXT," +
+                DatabaseInfo.ModulesColumn.ECT + " INT);"
+        );
+        db.execSQL("CREATE TABLE " + DatabaseInfo.Tables.STUDENTEN + " (" +
+                BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DatabaseInfo.StudentColumn.STUDENTNUMMER + " INT," +
+                DatabaseInfo.StudentColumn.VOORNAAM + " TEXT," +
+                DatabaseInfo.StudentColumn.ACHTERNAAM + " TEXT);"
         );
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS "+ DatabaseInfo.Tables.MODULES);
+        db.execSQL("DROP TABLE IF EXISTS "+ DatabaseInfo.Tables.MODULES + "," + DatabaseInfo.Tables.STUDENTEN);
         onCreate(db);
     }
 

@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.ModuleActivity"
+        <activity
+            android:name=".Activities.ModuleActivity"
             android:label="Module" />
         <activity
             android:name=".Activities.ProfileActivity"
