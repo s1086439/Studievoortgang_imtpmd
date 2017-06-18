@@ -8,11 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.imtpmd1617.studievoortgang.Models.Module;
 import com.example.imtpmd1617.studievoortgang.R;
+
+import java.util.ArrayList;
 
 public class ModulesAdapter extends ArrayAdapter<String> {
 
-    public ModulesAdapter(Context context, String[] modules) {
+    public ModulesAdapter(Context context, ArrayList<String> modules) {
         super(context, R.layout.listrow_module, modules);
     }
 
@@ -25,7 +28,7 @@ public class ModulesAdapter extends ArrayAdapter<String> {
             String module = getItem(position);
             TextView moduleText = (TextView) convertView.findViewById(R.id.moduleText);
 
-            moduleText.setText(module);
+            moduleText.setText(position);
 
             moduleText.setBackgroundColor(Color.parseColor("#d7ffb2"));
         }

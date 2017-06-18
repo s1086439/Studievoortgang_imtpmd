@@ -29,6 +29,8 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
                 return new ProfilePropedeuseModulesFragment();
             case 2:
                 return new ProfileHoofdfaseModulesFragment();
+            case 3:
+                return new ProfileHoofdfaseModulesFragment();
             default:
                 return null;
         }
@@ -43,6 +45,8 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
                 return "Propedeuse";
             case 2:
                 return "Hoofdfase";
+            case 3:
+                return "Keuzevakken";
         }
         return null;
     }

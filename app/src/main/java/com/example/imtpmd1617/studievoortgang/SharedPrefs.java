@@ -9,8 +9,6 @@ public class SharedPrefs {
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
 
-    private static final String PLACE_OBJ = "place_obj";
-
     private SharedPrefs() {
     } //prevent creating multiple instances by making the constructor private
 
@@ -23,17 +21,26 @@ public class SharedPrefs {
         return sharePref;
     }
 
-    public void savePlaceObj(String placeObjStr) {
-        editor.putString(PLACE_OBJ, placeObjStr);
+    public void putStringValue(String name, String value) {
+        editor.putString(name, value);
         editor.commit();
     }
 
-    public String getPlaceObj() {
-        return sharedPreferences.getString(PLACE_OBJ, "");
+    public void putBooleanValue(String name, Boolean bool){
+        editor.putBoolean(name, bool);
+        editor.commit();
     }
 
-    public void removePlaceObj() {
-        editor.remove(PLACE_OBJ);
+    public String getStringValue(String name) {
+        return sharedPreferences.getString(name, "");
+    }
+
+    public Boolean getBooleanValue(String name) {
+        return sharedPreferences.getBoolean(name, true);
+    }
+
+    public void removePlaceObj(String name) {
+        editor.remove(name);
         editor.commit();
     }
 

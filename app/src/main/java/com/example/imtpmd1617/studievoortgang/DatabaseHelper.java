@@ -8,6 +8,9 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static SQLiteDatabase mSQLDB;
@@ -39,16 +42,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void createTables(){
-        db.execSQL("CREATE TABLE " + DatabaseInfo.Tables.MODULES + " (" +
-                BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                DatabaseInfo.ModulesColumn.NAAM + " TEXT," +
-                DatabaseInfo.ModulesColumn.ECT + " INT);"
-        );
         db.execSQL("CREATE TABLE " + DatabaseInfo.Tables.STUDENTEN + " (" +
-                BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                DatabaseInfo.StudentColumn.STUDENTNUMMER + " INT," +
+                DatabaseInfo.StudentColumn.STUDENTID + " INTEGER PRIMARY KEY, " +
                 DatabaseInfo.StudentColumn.VOORNAAM + " TEXT," +
-                DatabaseInfo.StudentColumn.ACHTERNAAM + " TEXT);"
+                DatabaseInfo.StudentColumn.ACHTERNAAM + " TEXT," +
+                DatabaseInfo.StudentColumn.STUDIERICHTING + " TEXT);"
+        );
+        db.execSQL("CREATE TABLE " + DatabaseInfo.Tables.MODULES + " (" +
+                DatabaseInfo.ModulesColumn.ID + " INTEGER PRIMARY KEY, " +
+                DatabaseInfo.ModulesColumn.NAAM + " TEXT," +
+                DatabaseInfo.ModulesColumn.AFKORTING + " TEXT," +
+                DatabaseInfo.ModulesColumn.CIJFER + " INT," +
+                DatabaseInfo.ModulesColumn.PERIODE + " INT," +
+                DatabaseInfo.ModulesColumn.FASE + " INT," +
+                DatabaseInfo.ModulesColumn.ECT + " INT);"
         );
     }
 
@@ -61,8 +68,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mSQLDB.insert(table, nullColumnHack, values);
     }
 
-    public Cursor query(String table, String[] columns, String selection, String[] selectArgs, String groupBy, String having, String orderBy){
-        return mSQLDB.query(table, columns, selection, selectArgs, groupBy, having, orderBy);
+
+    //public Cursor query(String table, String[] columns, String selection, String[] selectArgs, String groupBy, String having, String orderBy){
+    //return mSQLDB.query(table, columns, selection, selectArgs, groupBy, having, orderBy);
+    //}
+
+    // Query table met een 2D ArrayList
+    // Geeft de query als ArrayList met rows terug
+
+    public ArrayList<ArrayList<String>> queryDb(String table, String[] columns, String selection, String[] selectArgs, String groupBy, String having, String orderBy){
+        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+
+        Cursor cursor = mSQLDB.query(table, columns, selection, selectArgs, groupBy, having, orderBy);
+        //Cursor cursor = query(table, new String[]{"*"}, null, null, null, null, null);
+        cursor.moveToFirst();
+
+        if (cursor.moveToFirst()) {
+            for(int rij = 0; rij < cursor.getCount(); rij++) {
+                data.add(new ArrayList<String>());
+                for(int col = 0; col < cursor.getColumnCount(); col++){
+                    data.get(rij).add(cursor.getString(col));
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return data;
     }
 
 }

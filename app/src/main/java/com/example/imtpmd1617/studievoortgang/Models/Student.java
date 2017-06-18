@@ -3,14 +3,15 @@ package com.example.imtpmd1617.studievoortgang.Models;
 
 public class Student{
 
-    private int studentnummer;
-    private String voornaam, achternaam, token;
+    public int studentId;
+    public String voornaam, achternaam, token, studierichting;
 
-    public Student(int studentnummer, String voornaam, String achternaam, String token) {
-        this.studentnummer = studentnummer;
+    public Student(int studentId, String voornaam, String achternaam, String token, String studierichting) {
+        this.studentId = studentId;
         this.voornaam = voornaam;
         this.achternaam = achternaam;
         this.token = token;
+        this.studierichting = studierichting;
     }
 
     public String getToken() {
@@ -21,12 +22,12 @@ public class Student{
         this.token = token;
     }
 
-    public int getStudentnummer() {
-        return studentnummer;
+    public int getStudentId() {
+        return studentId;
     }
 
-    public void setStudentnummer(int studentnummer) {
-        this.studentnummer = studentnummer;
+    public void setStudentId(int studentnummer) {
+        this.studentId = studentId;
     }
 
     public String getVoornaam() {
