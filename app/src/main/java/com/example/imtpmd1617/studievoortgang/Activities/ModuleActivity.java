@@ -12,7 +12,14 @@ public class ModuleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_module);
-        TextView courseNameTextView = (TextView) findViewById(R.id.courseName);
-        courseNameTextView.setText(getIntent().getStringExtra("module"));
+        TextView naamTextView = (TextView) findViewById(R.id.naamText);
+        TextView afkortingText = (TextView) findViewById(R.id.afkortingText);
+        TextView cijferText = (TextView) findViewById(R.id.cijferText);
+        TextView ectText = (TextView) findViewById(R.id.ectText);
+
+        naamTextView.setText(getIntent().getStringExtra("naam"));
+        afkortingText.setText(getIntent().getStringExtra("afkorting"));
+        cijferText.setText(getIntent().getStringExtra("cijfer"));
+        ectText.setText(getIntent().getStringExtra("ect"));
     }
 }

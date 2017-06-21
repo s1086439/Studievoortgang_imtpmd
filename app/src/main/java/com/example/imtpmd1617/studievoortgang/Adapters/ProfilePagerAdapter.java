@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.imtpmd1617.studievoortgang.Fragments.ProfileFragment;
 import com.example.imtpmd1617.studievoortgang.Fragments.ProfileHoofdfaseModulesFragment;
+import com.example.imtpmd1617.studievoortgang.Fragments.ProfileKeuzeModulesFragment;
 import com.example.imtpmd1617.studievoortgang.Fragments.ProfilePropedeuseModulesFragment;
 
 public class ProfilePagerAdapter extends FragmentPagerAdapter {
@@ -17,7 +18,7 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // Show 3 total pages.
-        return 3;
+        return 4;
     }
 
     @Override
@@ -30,7 +31,7 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
             case 2:
                 return new ProfileHoofdfaseModulesFragment();
             case 3:
-                return new ProfileHoofdfaseModulesFragment();
+                return new ProfileKeuzeModulesFragment();
             default:
                 return null;
         }

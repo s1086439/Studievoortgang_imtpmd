@@ -10,7 +10,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
 
+import com.example.imtpmd1617.studievoortgang.Models.Module;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static SQLiteDatabase mSQLDB;
@@ -89,11 +92,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 for(int col = 0; col < cursor.getColumnCount(); col++){
                     data.get(rij).add(cursor.getString(col));
                 }
+                Log.d("Query: ", "" +  data.get(rij));
                 cursor.moveToNext();
             }
             cursor.close();
         }
         return data;
     }
+
+    public List<Module> querySqliteModules(String query) {
+        List<Module> moduleList = new ArrayList<Module>();
+
+        String selectQuery = query;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Module module = new Module();
+                module.setId(Integer.parseInt(cursor.getString(0)));
+                module.setCijfer(Double.parseDouble(cursor.getString(3)));
+                module.setModule_naam(cursor.getString(1));
+                module.setModule_afkorting(cursor.getString(2));
+                module.setPeriode(Integer.parseInt(cursor.getString(4)));
+                module.setEct(Integer.parseInt(cursor.getString(6)));
+                moduleList.add(module);
+                Log.d("Module: ", "" + cursor.getColumnName(1));
+            } while (cursor.moveToNext());
+        }
+
+        return moduleList;
+    }
+
 
 }

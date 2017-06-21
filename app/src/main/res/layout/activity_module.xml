@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
     tools:context="com.example.imtpmd1617.studievoortgang.Activities.ModuleActivity">
 
     <TextView
-        android:id="@+id/courseName"
-        android:layout_width="wrap_content"
+        android:id="@+id/naamText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:text="TextView"
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -22,30 +21,80 @@
         tools:layout_constraintTop_creator="1" />
 
     <TextView
-        android:id="@+id/etc"
-        android:layout_width="wrap_content"
+        android:id="@+id/afkortingText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="20dp"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="84dp"
-        tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="16dp" />
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
+        android:id="@+id/cijferText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:text="TextView"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <TextView
+        android:id="@+id/ectText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="45dp"
-        app:layout_constraintTop_toBottomOf="@+id/etc"
-        tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="16dp" />
-</android.support.constraint.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/afkortingText"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <TextView
+        android:id="@+id/Omscrijving"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/afkortingText"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteY="230dp"
+        tools:layout_editor_absoluteX="20dp">
+
+        <Button
+            android:id="@+id/inschrijvenButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inschrijven"
+            tools:layout_constraintTop_creator="1"
+            tools:layout_constraintRight_creator="1"
+            android:layout_marginEnd="6dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="148dp"
+            android:layout_marginRight="6dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintHorizontal_bias="0.993"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" />
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

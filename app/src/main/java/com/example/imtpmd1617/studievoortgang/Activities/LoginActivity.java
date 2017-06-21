@@ -62,8 +62,8 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if(isOnline()) {
-                        requestToken(studentnummerInput.getText().toString(), wachtwoordInput.getText().toString());
-                        //requestToken("1081231", "wachtwoord");
+                        //requestToken(studentnummerInput.getText().toString(), wachtwoordInput.getText().toString());
+                        requestToken("1081231", "wachtwoord");
                     } else {
                         Toast.makeText(LoginActivity.this, "Geen internetverbinding. Probeer het later opnieuw.", Toast.LENGTH_LONG).show();
                     }
