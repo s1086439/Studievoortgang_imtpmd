@@ -34,7 +34,11 @@ public class ModulesAdapter extends ArrayAdapter<Module> {
             TextView cijferText = (TextView) convertView.findViewById(R.id.cijferText);
 
             afkortingText.setText(module.getModule_afkorting());
-            cijferText.setText(String.valueOf(module.getCijfer()));
+            if(module.getCijfer() > 0 || module.getCijfer() > 10){
+                cijferText.setText(String.valueOf(module.getCijfer()));
+            } else {
+                cijferText.setText("-");
+            }
 
             if(module.getCijfer() >= 5.5){
                 linearLayout.setBackgroundColor(Color.parseColor("#d7ffb2"));

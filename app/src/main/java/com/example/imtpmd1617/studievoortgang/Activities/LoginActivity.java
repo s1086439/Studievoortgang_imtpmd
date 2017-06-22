@@ -44,12 +44,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         dbHelper = DatabaseHelper.getHelper(this);
 
-        SharedPrefs.getInstance(LoginActivity.this).clearAll();
-
+        //SharedPrefs.getInstance(LoginActivity.this).clearAll();
         //SharedPrefs.getInstance(LoginActivity.this).putBooleanValue("firstRun", false);
 
         if (SharedPrefs.getInstance(LoginActivity.this).getBooleanValue("firstRun") == true) {
-            getHelper(this);
             setContentView(R.layout.activity_login);
 
             studentnummerInput = (EditText)findViewById(R.id.studentnummerInput);
@@ -62,15 +60,15 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if(isOnline()) {
-                        //requestToken(studentnummerInput.getText().toString(), wachtwoordInput.getText().toString());
-                        requestToken("1081231", "wachtwoord");
+                        requestToken(studentnummerInput.getText().toString(), wachtwoordInput.getText().toString());
+                        //requestToken("1081231", "wachtwoord");
                     } else {
                         Toast.makeText(LoginActivity.this, "Geen internetverbinding. Probeer het later opnieuw.", Toast.LENGTH_LONG).show();
                     }
                 }
             });
         } else {
-            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+            startActivity(new Intent(this, ProfileActivity.class));
             finish();
         }
     }
@@ -125,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(List<Student> response) {
                 SharedPrefs.getInstance(LoginActivity.this).putBooleanValue("firstRun", false);
+                Log.d("bool ",  "" + SharedPrefs.getInstance(LoginActivity.this).getBooleanValue("firstRun"));
                 processStudentRequestSuccess(response);
                 finish();
             }

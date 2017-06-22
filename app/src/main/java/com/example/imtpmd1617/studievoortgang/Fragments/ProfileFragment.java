@@ -13,12 +13,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.imtpmd1617.studievoortgang.DatabaseHelper;
+import com.example.imtpmd1617.studievoortgang.Models.Module;
+import com.example.imtpmd1617.studievoortgang.Models.Student;
 import com.example.imtpmd1617.studievoortgang.R;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -28,73 +29,70 @@ public class ProfileFragment extends Fragment {
 
     private TextView naamText, studentnummerText, studierichtingText;
     private DatabaseHelper dbHelper;
+    private List entries;
+    private GraphView graph;
+    private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_profile_info, container, false);
+        view = inflater.inflate(R.layout.fragment_profile_info, container, false);
 
         dbHelper = DatabaseHelper.getHelper(getContext());
-
-        LineChart chart = (LineChart) view.findViewById(R.id.chart);
-
-        Integer[] yAxis = {1,2,3,4};
-        Integer[] xAxis = {1,20,30,40};
-
-        List<Entry> entries = new ArrayList<Entry>();
-
-        for(int i = 0; i < xAxis.length; i++){
-            entries.add(new Entry(yAxis[i], xAxis[i]));
-        }
-
-        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        chart.setPinchZoom(false);
-        chart.setScaleEnabled(false);
-
-        chart.getAxisRight().setEnabled(false);
-        chart.setTouchEnabled(false);
-
-        LineDataSet dataSet = new LineDataSet(entries, "Studiepunten (ect)");
-
-        LineData lineData = new LineData(dataSet);
-
-        chart.getAxisLeft().setAxisMinimum(0);
-        chart.getAxisLeft().setAxisMaximum(60);
-
-        //chart.getXAxis().setAxisMinimum(1);
-        //chart.getXAxis().setAxisMaximum(4);
-
-        chart.getAxisLeft().setSpaceTop(0);
-        chart.getAxisLeft().setSpaceBottom(0);
-
-        chart.setDescription(null);
-        chart.getLegend().setEnabled(false);
-
-        dataSet.setColor(Color.parseColor("#21174c"));
-        dataSet.setCircleColor(Color.parseColor("#21174c"));
-        dataSet.setLineWidth(3f);
-        dataSet.setCircleRadius(4f);
-
-        chart.setData(lineData);
-        chart.invalidate();
-
-
-        //queryDb("STUDENTEN");
         naamText = (TextView) view.findViewById(R.id.naamText);
         studentnummerText = (TextView) view.findViewById(R.id.studentnummerText);
         studierichtingText = (TextView) view.findViewById(R.id.studierichtingText);
-
-        //naamText.setText("Naam: " + queryDb("STUDENTEN"));
-
-        /*
-        for(ArrayList s : dbHelper.queryDb("STUDENTEN", null, null, null, null, null, null)){
-            naamText.setText("Naam: " + s.get(1) + " " + s.get(2));
-            studentnummerText.setText("Studentnummer: " + s.get(0));
-            studierichtingText.setText("Studiericthing: " + s.get(3));
-        }*/
-
+        setupGraph();
+        fillTextEntries();
         return view;
+    }
+
+    private void setupGraph(){
+        graph = (GraphView) view.findViewById(R.id.studiepuntenGraph);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(4);
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(60);
+        LineGraphSeries<DataPoint> seriesPropedeuse = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(0, 0),
+                new DataPoint(1, 10),
+                new DataPoint(2, 23)
+        });
+
+        LineGraphSeries<DataPoint> seriesHoofdfase = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(0, 0)
+        });
+
+        seriesPropedeuse.setColor(R.attr.colorPrimary);
+        seriesPropedeuse.setDrawDataPoints(true);
+        seriesPropedeuse.setDataPointsRadius(10);
+
+        seriesHoofdfase.setColor(Color.parseColor("#cdc2f9"));
+        seriesHoofdfase.setDrawDataPoints(true);
+        seriesHoofdfase.setDataPointsRadius(10);
+
+        seriesPropedeuse.setTitle("Studiepunten propedeuse");
+        graph.getLegendRenderer().setVisible(true);
+        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
+        graph.getLegendRenderer().setBackgroundColor(Color.TRANSPARENT);
+        graph.addSeries(seriesPropedeuse);
+
+        seriesHoofdfase.setTitle("Studiepunten hoofdfase");
+        graph.getLegendRenderer().setVisible(true);
+        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
+        graph.getLegendRenderer().setBackgroundColor(Color.TRANSPARENT);
+        graph.addSeries(seriesHoofdfase);
+    }
+
+    public void fillTextEntries(){
+        for(Student s : dbHelper.querySqliteStudent("SELECT  * FROM STUDENTEN")){
+            naamText.setText("Naam: " + s.getVoornaam() + " " + s.getAchternaam());
+            studentnummerText.setText("Studentnummer: " + String.valueOf(s.getStudentId()));
+            studierichtingText.setText("Studiericthing: " + s.getStudierichting());
+        }
     }
 
 }

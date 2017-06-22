@@ -3,27 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_periode_1"
+        android:id="@+id/action_jaar_2"
         android:orderInCategory="100"
-        android:title="Periode 1"
+        android:title="Jaar 2"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_periode_2"
+        android:id="@+id/action_jaar_3"
         android:orderInCategory="100"
-        android:title="Periode 2"
+        android:title="Jaar 3"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_periode_3"
+        android:id="@+id/action_jaar_4"
         android:orderInCategory="100"
-        android:title="Periode 3"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_periode_4"
-        android:orderInCategory="100"
-        android:title="Periode 4"
+        android:title="Jaar 4"
         app:showAsAction="never" />
 
 </menu>

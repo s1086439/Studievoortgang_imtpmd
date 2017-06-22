@@ -6,20 +6,13 @@ public class Student{
     public int studentId;
     public String voornaam, achternaam, token, studierichting;
 
-    public Student(int studentId, String voornaam, String achternaam, String token, String studierichting) {
+    public Student(){}
+
+    public Student(int studentId, String voornaam, String achternaam, String studierichting) {
         this.studentId = studentId;
         this.voornaam = voornaam;
         this.achternaam = achternaam;
-        this.token = token;
         this.studierichting = studierichting;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public int getStudentId() {
@@ -44,5 +37,13 @@ public class Student{
 
     public void setAchternaam(String achternaam) {
         this.achternaam = achternaam;
+    }
+
+    public String getStudierichting() {
+        return studierichting;
+    }
+
+    public void setStudierichting(String studierichting) {
+        this.studierichting = studierichting;
     }
 }

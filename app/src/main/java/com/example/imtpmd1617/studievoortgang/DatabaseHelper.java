@@ -1,6 +1,5 @@
 package com.example.imtpmd1617.studievoortgang;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,6 +10,7 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.example.imtpmd1617.studievoortgang.Models.Module;
+import com.example.imtpmd1617.studievoortgang.Models.Student;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASENAME = "imtpmd.db";
     private SQLiteDatabase db;
 
-    public DatabaseHelper(Context ctx) {super(ctx, DATABASENAME, null, DATABASEVERSION);
+    public DatabaseHelper(Context ctx) {
+        super(ctx, DATABASENAME, null, DATABASEVERSION);
     }
 
 
@@ -46,20 +47,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void createTables(){
         db.execSQL("CREATE TABLE " + DatabaseInfo.Tables.STUDENTEN + " (" +
-                DatabaseInfo.StudentColumn.STUDENTID + " INTEGER PRIMARY KEY, " +
-                DatabaseInfo.StudentColumn.VOORNAAM + " TEXT," +
-                DatabaseInfo.StudentColumn.ACHTERNAAM + " TEXT," +
-                DatabaseInfo.StudentColumn.STUDIERICHTING + " TEXT);"
+            DatabaseInfo.StudentColumn.STUDENTID + " INTEGER PRIMARY KEY, " +
+            DatabaseInfo.StudentColumn.VOORNAAM + " TEXT," +
+            DatabaseInfo.StudentColumn.ACHTERNAAM + " TEXT," +
+            DatabaseInfo.StudentColumn.STUDIERICHTING + " TEXT);"
         );
         db.execSQL("CREATE TABLE " + DatabaseInfo.Tables.MODULES + " (" +
-                DatabaseInfo.ModulesColumn.ID + " INTEGER PRIMARY KEY, " +
-                DatabaseInfo.ModulesColumn.NAAM + " TEXT," +
-                DatabaseInfo.ModulesColumn.AFKORTING + " TEXT," +
-                DatabaseInfo.ModulesColumn.CIJFER + " INT," +
-                DatabaseInfo.ModulesColumn.PERIODE + " INT," +
-                DatabaseInfo.ModulesColumn.FASE + " INT," +
-                DatabaseInfo.ModulesColumn.ECT + " INT);"
+            DatabaseInfo.ModulesColumn.ID + " INTEGER PRIMARY KEY, " +
+            DatabaseInfo.ModulesColumn.NAAM + " TEXT," +
+            DatabaseInfo.ModulesColumn.AFKORTING + " TEXT," +
+            DatabaseInfo.ModulesColumn.CIJFER + " INT," +
+            DatabaseInfo.ModulesColumn.PERIODE + " INT," +
+            DatabaseInfo.ModulesColumn.FASE + " INT," +
+            DatabaseInfo.ModulesColumn.ECT + " INT);"
         );
+    }
+
+    public void dropTable(String table){
+        mSQLDB.execSQL("DROP TABLE IF EXISTS "+ table);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -76,41 +81,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //return mSQLDB.query(table, columns, selection, selectArgs, groupBy, having, orderBy);
     //}
 
-    // Query table met een 2D ArrayList
-    // Geeft de query als ArrayList met rows terug
-
-    public ArrayList<ArrayList<String>> queryDb(String table, String[] columns, String selection, String[] selectArgs, String groupBy, String having, String orderBy){
-        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
-
-        Cursor cursor = mSQLDB.query(table, columns, selection, selectArgs, groupBy, having, orderBy);
-        //Cursor cursor = query(table, new String[]{"*"}, null, null, null, null, null);
-        cursor.moveToFirst();
-
-        if (cursor.moveToFirst()) {
-            for(int rij = 0; rij < cursor.getCount(); rij++) {
-                data.add(new ArrayList<String>());
-                for(int col = 0; col < cursor.getColumnCount(); col++){
-                    data.get(rij).add(cursor.getString(col));
-                }
-                Log.d("Query: ", "" +  data.get(rij));
-                cursor.moveToNext();
-            }
-            cursor.close();
-        }
-        return data;
-    }
-
     public List<Module> querySqliteModules(String query) {
-        List<Module> moduleList = new ArrayList<Module>();
+        List<Module> moduleList = new ArrayList<>();
 
         String selectQuery = query;
 
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = mSQLDB.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             do {
                 Module module = new Module();
                 module.setId(Integer.parseInt(cursor.getString(0)));
-                module.setCijfer(Double.parseDouble(cursor.getString(3)));
+                if(cursor.getString(3) != "-1"){
+                    module.setCijfer(Double.parseDouble(cursor.getString(3)));
+                }
                 module.setModule_naam(cursor.getString(1));
                 module.setModule_afkorting(cursor.getString(2));
                 module.setPeriode(Integer.parseInt(cursor.getString(4)));
@@ -123,5 +106,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return moduleList;
     }
 
+    public List<Student> querySqliteStudent(String query) {
+        List<Student> studentList = new ArrayList<>();
+
+        String selectQuery = query;
+
+        Cursor cursor = mSQLDB.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Student student = new Student();
+                student.setVoornaam(cursor.getString(1));
+                student.setAchternaam(cursor.getString(2));
+                student.setStudentId(Integer.parseInt(cursor.getString(0)));
+                student.setStudierichting(cursor.getString(3));
+                studentList.add(student);
+            } while (cursor.moveToNext());
+        }
+
+        return studentList;
+    }
 
 }

@@ -39,9 +39,6 @@ public class ProfileActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private ProfilePagerAdapter mSectionsPagerAdapter;
-    private DatabaseHelper dbHelper;
-    private TextView naamText;
-
 
     /**
      * The {@link ViewPager} that will host the section contents.
