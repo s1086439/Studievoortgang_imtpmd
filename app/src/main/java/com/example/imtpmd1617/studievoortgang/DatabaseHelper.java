@@ -31,6 +31,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context,name,factory, version);
     }
 
+    // Singleton voor het verkijgen van de DatabaseHelper instance
+
     public static synchronized DatabaseHelper getHelper (Context ctx){
         if (mInstance == null){
             mInstance = new DatabaseHelper(ctx);
@@ -39,11 +41,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return mInstance;
     }
 
+    // Maakt de database één keer aan bij de eerste opstart van de applicatie
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         this.db = db;
         createTables();
     }
+
+    // Het aanmaken van de table in SQLite met de daarbij behorende kolommen verkregen van de models
 
     public void createTables(){
         db.execSQL("CREATE TABLE " + DatabaseInfo.Tables.STUDENTEN + " (" +
@@ -63,23 +69,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
     }
 
+    // Drop table SQLlite voor het verwijderen van de doorgegeven tabel
+
     public void dropTable(String table){
         mSQLDB.execSQL("DROP TABLE IF EXISTS "+ table);
     }
+
+
+    // Upgrade de SQLite database bij een update van de applicatie
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+ DatabaseInfo.Tables.MODULES + "," + DatabaseInfo.Tables.STUDENTEN);
         onCreate(db);
     }
 
+    // Insert een row in de SQLite database
+
     public void insert(String table, String nullColumnHack, ContentValues values){
         mSQLDB.insert(table, nullColumnHack, values);
     }
 
 
-    //public Cursor query(String table, String[] columns, String selection, String[] selectArgs, String groupBy, String having, String orderBy){
-    //return mSQLDB.query(table, columns, selection, selectArgs, groupBy, having, orderBy);
-    //}
+    /* Query de lokale database met een gekregen query String.
+       Maakt bij elke gevonden row een nieuwe Module aan met zijn waarde.
+       Plaatst deze Module in een List en returned deze */
 
     public List<Module> querySqliteModules(String query) {
         List<Module> moduleList = new ArrayList<>();
@@ -105,6 +118,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return moduleList;
     }
+
+    /* Query de lokale database met een gekregen query String.
+       Maakt bij elke gevonden row een nieuwe Student aan met zijn waarde.
+       Plaatst deze Student in een List en returned deze */
 
     public List<Student> querySqliteStudent(String query) {
         List<Student> studentList = new ArrayList<>();

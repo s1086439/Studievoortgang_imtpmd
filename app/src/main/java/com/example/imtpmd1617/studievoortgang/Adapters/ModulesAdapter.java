@@ -33,12 +33,16 @@ public class ModulesAdapter extends ArrayAdapter<Module> {
             TextView afkortingText = (TextView) convertView.findViewById(R.id.afkortingText);
             TextView cijferText = (TextView) convertView.findViewById(R.id.cijferText);
 
+            // Bepalen of er een streepje moet worden weergegeven
+
             afkortingText.setText(module.getModule_afkorting());
             if(module.getCijfer() > 0 || module.getCijfer() > 10){
                 cijferText.setText(String.valueOf(module.getCijfer()));
             } else {
                 cijferText.setText("-");
             }
+
+            // Bepalen welke kleur er aan de achtergrond van de listrow moet worden gegeven
 
             if(module.getCijfer() >= 5.5){
                 linearLayout.setBackgroundColor(Color.parseColor("#d7ffb2"));
@@ -49,15 +53,6 @@ public class ModulesAdapter extends ArrayAdapter<Module> {
                 //linearLayout.setBackgroundColor(0x00000000);
             }
 
-            /*
-            convertView.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), ModuleActivity.class);
-                    getContext().startActivity(intent);
-                }
-            });*/
         }
         return convertView;
     }

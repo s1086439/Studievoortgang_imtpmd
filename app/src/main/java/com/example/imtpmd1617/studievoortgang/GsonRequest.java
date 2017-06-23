@@ -93,7 +93,7 @@ public class GsonRequest<T> extends Request<T> {
         } catch (JsonSyntaxException e) {
             return Response.error(new ParseError(e));
         }
-    } // end parseNetwResp
+    }
 
     protected Gson getGson() {
         return gson;

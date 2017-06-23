@@ -3,10 +3,14 @@ package com.example.imtpmd1617.studievoortgang;
 
 public class DatabaseInfo {
 
+    // Namen van de tabellen die moeten worden aangemaakt
+
     public class Tables {
         public static final String MODULES = "modules";
         public static final String STUDENTEN = "studenten";
     }
+
+    // Functie voor het aanmaken van de kolommen in SQLite
 
     public class ModulesColumn {
         public static final String ID = "id";
@@ -17,6 +21,8 @@ public class DatabaseInfo {
         public static final String PERIODE = "periode";
         public static final String FASE = "fase";
     }
+
+    // Functie voor het aanmaken van de kolommen in SQLite
 
     public class StudentColumn {
         public static final String STUDENTID = "studentId";

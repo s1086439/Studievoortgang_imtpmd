@@ -31,6 +31,8 @@ import static com.example.imtpmd1617.studievoortgang.R.id.modulesListView;
 
 public class ProfileKeuzeModulesFragment extends Fragment implements View.OnClickListener {
 
+    // Klasse had beter over andere klasse kunnen implementeren i.v.m. dubbele code
+
     private ArrayList<Module> modules;
     private DatabaseHelper dbHelper;
     private ListAdapter modulesAdapter;
@@ -43,11 +45,9 @@ public class ProfileKeuzeModulesFragment extends Fragment implements View.OnClic
 
         View view = inflater.inflate(R.layout.fragment_profile_modules, container, false);
 
-        this.modules = new ArrayList<>();
+        this.modules = new ArrayList<>(); // Nieuwe module ArrayList verkrijgen
 
-        dbHelper = getHelper(getActivity());
-
-        //ListAdapter modulesAdapter = new ModulesAdapter(getActivity(), modules);
+        dbHelper = getHelper(getActivity()); // DatabaseHelper verkrijgen
 
         modulesAdapter = new ModulesAdapter(getActivity(), modules);
 
@@ -64,13 +64,12 @@ public class ProfileKeuzeModulesFragment extends Fragment implements View.OnClic
         periode3Button.setOnClickListener(this);
         periode4Button.setOnClickListener(this);
 
-
         periodeEnFaseText = (TextView) view.findViewById(R.id.periodeEnFaseText);
 
-
-
-        //changeModules(1);
-
+        /* ClickListener voor individuele listrows om zo een ModuleActivity op te starten.
+            Geeft extra waarden aan de activity mee door putExtra.
+            Verkrijgt deze waarden door de positie van de listrow (module) te bepalen van de klik
+         */
 
         modulesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -85,10 +84,14 @@ public class ProfileKeuzeModulesFragment extends Fragment implements View.OnClic
             }
         });
 
+        // Oproepen changeModules bij de start van de activity om ze een lege lijst te voorkomen
         changeModules(1);
 
+        // Return view om deze weer te geven
         return view;
     }
+
+    // Opvangen klik op de knoppen van de periodes en daarna de methode changeModules oproepen
 
     public void onClick(View v) {
         switch (v.getId()) {
@@ -107,15 +110,20 @@ public class ProfileKeuzeModulesFragment extends Fragment implements View.OnClic
         }
     }
 
+    // Het verranderen van de lijst met modules aan de hand van de verkregen periode
+
     private void changeModules(int periode){
-        this.modules.clear();
+        this.modules.clear(); // cleared ArrayList
 
         for(Module m : dbHelper.querySqliteModules("SELECT  * FROM MODULES WHERE periode=" + periode + " AND fase=0")){
-            this.modules.add(m);
+            this.modules.add(m); // voegt module toe aan ArrayList
         }
-        Log.d("Modules: ", "" + this.modules);
-        periodeEnFaseText.setText("Periode " + periode);
+        periodeEnFaseText.setText("Periode " + periode); // Zet de tekst
+
+        // Laat de adapter weten dat de lijst is veranderd
+
         ((BaseAdapter)modulesAdapter).notifyDataSetChanged();
+
         modulesListView.setAdapter(modulesAdapter);
     }
 

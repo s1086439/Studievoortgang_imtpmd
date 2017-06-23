@@ -36,6 +36,8 @@ import static com.example.imtpmd1617.studievoortgang.DatabaseHelper.getHelper;
 
 public class ProfilePropedeuseModulesFragment extends Fragment implements View.OnClickListener {
 
+    // Klasse had beter over andere klasse kunnen implementeren i.v.m. dubbele code
+
     ArrayList<Module> modules;
     private DatabaseHelper dbHelper;
     private ListAdapter modulesAdapter;
@@ -65,17 +67,18 @@ public class ProfilePropedeuseModulesFragment extends Fragment implements View.O
 
         Log.d("activity","" + getActivity());
 
-        //changeModules(1);
-        //for(Module m : dbHelper.querySqliteModules("SELECT  * FROM MODULES WHERE periode = 1 AND fase = 1")){
-        //    this.modules.add(m);
-        //}
-
         modulesAdapter = new ModulesAdapter(getActivity(), modules);
 
         modulesListView = (ListView)view.findViewById(R.id.modulesListView);
         modulesListView.setAdapter(modulesAdapter);
 
         periodeEnFaseText = (TextView) view.findViewById(R.id.periodeEnFaseText);
+
+
+        /* ClickListener voor individuele listrows om zo een ModuleActivity op te starten.
+            Geeft extra waarden aan de activity mee door putExtra.
+            Verkrijgt deze waarden door de positie van de listrow (module) te bepalen van de klik
+         */
 
         modulesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -95,6 +98,8 @@ public class ProfilePropedeuseModulesFragment extends Fragment implements View.O
         return view;
     }
 
+    // Opvangen klik op de knoppen van de periodes en daarna de methode changeModules oproepen
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.periode1Button:
@@ -112,35 +117,7 @@ public class ProfilePropedeuseModulesFragment extends Fragment implements View.O
         }
     }
 
-    /*
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
-        //menu.clear();
-        inflater.inflate(R.menu.menu_profile_propedeuse, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        this.modules.clear();
-        switch (item.getItemId()) {
-            case R.id.action_periode_1:
-                changeModules(1);
-                return true;
-            case R.id.action_periode_2:
-                changeModules(2);
-                return true;
-            case R.id.action_periode_3:
-                changeModules(3);
-                return true;
-            case R.id.action_periode_4:
-                changeModules(4);
-                return true;
-        }
-        return false;
-    }*/
+    // Het verranderen van de lijst met modules aan de hand van de verkregen periode
 
     private void changeModules(int periode){
         this.modules.clear();

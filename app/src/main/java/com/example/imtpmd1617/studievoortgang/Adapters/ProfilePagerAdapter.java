@@ -17,9 +17,11 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 3 total pages.
+        // 4 pagina's teruggeven
         return 4;
     }
+
+    // Geeft de fragment terug door eerste de positie te bepalen
 
     @Override
     public Fragment getItem(int position) {
@@ -36,6 +38,8 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
                 return null;
         }
     }
+
+    // Geeft de string terug voor de tab door eerste de positie van de tab de bepalen
 
     @Override
     public CharSequence getPageTitle(int position) {

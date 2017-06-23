@@ -9,10 +9,13 @@ public class SharedPrefs {
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
 
-    private SharedPrefs() {
-    } //prevent creating multiple instances by making the constructor private
+    // Voorkomen dat meerdere instanties worden aangemaakt
 
-    //The context passed into the getInstance should be application level context.
+    private SharedPrefs() {
+    }
+
+    // Voor het ophalen van de SharedPreferences instance
+
     public static SharedPrefs getInstance(Context context) {
         if (sharedPreferences == null) {
             sharedPreferences = context.getSharedPreferences(context.getPackageName(), Activity.MODE_PRIVATE);
@@ -21,19 +24,27 @@ public class SharedPrefs {
         return sharePref;
     }
 
+    // String waarde met waarde plaatsen in SharedPreferences
+
     public void putStringValue(String name, String value) {
         editor.putString(name, value);
         editor.commit();
     }
+
+    // Bool waarde met waarde plaatsen in SharedPreferences
 
     public void putBooleanValue(String name, Boolean bool){
         editor.putBoolean(name, bool);
         editor.commit();
     }
 
+    // String verkrijgen uit SharedPreferences
+
     public String getStringValue(String name) {
         return sharedPreferences.getString(name, "");
     }
+
+    // Bool verkrijgen uit SharedPreferences
 
     public Boolean getBooleanValue(String name) {
         return sharedPreferences.getBoolean(name, true);
@@ -43,6 +54,8 @@ public class SharedPrefs {
         editor.remove(name);
         editor.commit();
     }
+
+    // Alle opgeslagen waarden van de applicatie uit SharedPreferences verwijderen
 
     public void clearAll() {
         editor.clear();

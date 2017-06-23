@@ -32,6 +32,8 @@ import static com.example.imtpmd1617.studievoortgang.R.id.modulesListView;
 
 public class ProfileHoofdfaseModulesFragment extends Fragment implements View.OnClickListener {
 
+    // Klasse had beter over andere klasse kunnen implementeren i.v.m. dubbele code
+
     private ArrayList<Module> modules;
     private DatabaseHelper dbHelper;
     private ListAdapter modulesAdapter;
@@ -75,6 +77,11 @@ public class ProfileHoofdfaseModulesFragment extends Fragment implements View.On
         modulesListView = (ListView)view.findViewById(R.id.modulesListView);
         modulesListView.setAdapter(modulesAdapter);
 
+        /* ClickListener voor individuele listrows om zo een ModuleActivity op te starten.
+            Geeft extra waarden aan de activity mee door putExtra.
+            Verkrijgt deze waarden door de positie van de listrow (module) te bepalen van de klik
+         */
+
         modulesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -99,6 +106,8 @@ public class ProfileHoofdfaseModulesFragment extends Fragment implements View.On
         inflater.inflate(R.menu.menu_profile_hoofdfase, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+    // Opvangen klik op de knoppen van de periodes en daarna de methode changeModules oproepen
 
     public void onClick(View v) {
         switch (v.getId()) {

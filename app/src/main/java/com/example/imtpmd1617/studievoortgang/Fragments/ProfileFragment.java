@@ -48,14 +48,26 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    /* Opzetten grafiek
+        Helaas niet afgekregen..
+    */
+
     private void setupGraph(){
         graph = (GraphView) view.findViewById(R.id.studiepuntenGraph);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
+
+        // Max periodes
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(4);
+
+        // Min periodes
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(60);
+
+        /* Punten bepalen in de grafiek (x,y)
+            Punten hadden dynamisch opgehaald moeten worden..
+         */
         LineGraphSeries<DataPoint> seriesPropedeuse = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0, 0),
                 new DataPoint(1, 10),
@@ -86,6 +98,10 @@ public class ProfileFragment extends Fragment {
         graph.getLegendRenderer().setBackgroundColor(Color.TRANSPARENT);
         graph.addSeries(seriesHoofdfase);
     }
+
+    /* Aanvullen studentgegevens op het scherm met het profiel d.m.v. setText*
+        *Pakt het studentnummer (getStudentId) niet, geen idee waarom
+    */
 
     public void fillTextEntries(){
         for(Student s : dbHelper.querySqliteStudent("SELECT  * FROM STUDENTEN")){

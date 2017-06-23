@@ -44,8 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         dbHelper = DatabaseHelper.getHelper(this);
 
-        //SharedPrefs.getInstance(LoginActivity.this).clearAll();
-        //SharedPrefs.getInstance(LoginActivity.this).putBooleanValue("firstRun", false);
+        // Eerste bepalen of de waarde True voor "firstRun" in SharedPreferences staat
 
         if (SharedPrefs.getInstance(LoginActivity.this).getBooleanValue("firstRun") == true) {
             setContentView(R.layout.activity_login);
@@ -59,25 +58,29 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
-                    if(isOnline()) {
+                    if(isOnline()) { // Bapelen of de gebruiker online is, zo ja vraag een token aan
                         requestToken(studentnummerInput.getText().toString(), wachtwoordInput.getText().toString());
-                        //requestToken("1081231", "wachtwoord");
-                    } else {
+                    } else { // Geen internetverbinding
                         Toast.makeText(LoginActivity.this, "Geen internetverbinding. Probeer het later opnieuw.", Toast.LENGTH_LONG).show();
                     }
                 }
             });
-        } else {
+        } else { // "FirstRun" in SharedPreferences is False, start gelijk ProfileActivity
             startActivity(new Intent(this, ProfileActivity.class));
             finish();
         }
     }
+
+    // Functie om te kijken of de gebruiker een verbinding met het internet heeft
 
     private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+
+    // Functie om de studentgegevens van het JSON-object in de lokale database te plaatsen
+    // De verkregen token wordt niet in de database geplaatst, maar wel in SharedPreferences
 
     private void processStudentRequestSuccess(List<Student> subjects){
         for(Student s : subjects){
@@ -91,6 +94,8 @@ public class LoginActivity extends AppCompatActivity {
         }
         requestResultaten();
     }
+
+    // Functie om de modules van het JSON-object in de lokale database te plaatsen
 
     private void processResultatenRequestSuccess(List<Module> subjects){
         for(Module m : subjects){
@@ -107,47 +112,61 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+    // Opvragen token
+
     private void requestToken(String sn, String w) {
-        Map<String, String> mRequestHeader = new HashMap<String, String>();
+        Map<String, String> mRequestHeader = new HashMap<String, String>(); // Nieuwe HTTP-header map
+
+        // Toevoegen waarden aan HTTP-header
         mRequestHeader.put("Content-Type","application/x-www-form-urlencoded");
 
+        // Toevoegen naam en wachtwoord aan HTTP-header
         Map<String, String> mRequestParams = new HashMap<String, String>();
         mRequestParams.put("name", sn);
         mRequestParams.put("password", w);
 
         Type type = new TypeToken<List<Student>>(){}.getType();
 
+        // Opvragen studentgegevens eerste keer nadat hij is succesvol binnen is
+
         GsonRequest<List<Student>> request = new GsonRequest<List<Student>>("http://83.81.251.42/api/login",
                 type, mRequestHeader, mRequestParams, new Response.Listener<List<Student>>() {
 
             @Override
             public void onResponse(List<Student> response) {
+
+                // Zet "FirstRun" op false
                 SharedPrefs.getInstance(LoginActivity.this).putBooleanValue("firstRun", false);
-                Log.d("bool ",  "" + SharedPrefs.getInstance(LoginActivity.this).getBooleanValue("firstRun"));
                 processStudentRequestSuccess(response);
                 finish();
             }
 
         }, new Response.ErrorListener(){
             @Override
-            public void onErrorResponse(VolleyError error){
+            public void onErrorResponse(VolleyError error){ // Fout met inloggen bijv. 401
                 Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_LONG).show();
             }
         });
+
+        // Toevoegen voor HTTP request
         VolleyHelper.getInstance(this).addToRequestQueue(request);
     }
 
+    // Ophalen studieresultaten met behulp van de opgeslagen token in SharedPreferences
+
     private void requestResultaten() {
         Map<String, String> mRequestHeader = new HashMap<String, String>();
+
+        // Toevoegen waarden header
         mRequestHeader.put("Content-Type","application/x-www-form-urlencoded");
         mRequestHeader.put("Authorization", "Bearer " + SharedPrefs.getInstance(LoginActivity.this).getStringValue("token"));
-        //mRequestHeader.put("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjI1ZjMzYTkzZmJlMGFkMGU4MDQzNzU2MTdjNjE2ZTVkNWJlNmFhMDhlMzYyMGY1NWFjZjIxMWViOTY1ZDcxNTBhM2JlNGVmZjZkYjU1NThkIn0.eyJhdWQiOiIzIiwianRpIjoiMjVmMzNhOTNmYmUwYWQwZTgwNDM3NTYxN2M2MTZlNWQ1YmU2YWEwOGUzNjIwZjU1YWNmMjExZWI5NjVkNzE1MGEzYmU0ZWZmNmRiNTU1OGQiLCJpYXQiOjE0OTc3MzU4MDEsIm5iZiI6MTQ5NzczNTgwMSwiZXhwIjoxNTI5MjcxODAxLCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.KqPsNW5ABtILT0UFgUDgOqE_P-DHl-4mk-Wnq7HHZ1_nLWzbJ2sM8eg4DbQfFz8nsoWBiXUOei2zN1IU4rAUuciC729Xs8LURXkU3LZXFERZgbH-QqWZxLJWKKj8UwJUWH7pqH90Wzntz9UTZjIo6q68zrzWg9WZaF0Qzhj3lSp33crNgROed7SYI02MhfpntFhBBnEaCj9xslQBT4G3N5N24OYmwsjQAJW7lEyUqEj8tsIKKEwrjfLWKykj3NV8jvGilXcG1B96Hzv5QLRSgh2edD9NJdzZy0iLxPTd_bx0PVWnD27EvqPi48QGXOoBEQ8VmWNCgeDw_RnUEs8n0o6tuY1_6FW9BM2lUf1ViRMuf9cDlIFpvEiAzrhQYYy-KGa0ArlwaGdzKiXlF3ivSprDceC_7U4qcdMEoUSxHpdFQI3mk_72jZSYaZ8PtKLYi08PhOL3N7mb_MHSYqCbQf6N8_85J7eACYaPKDCJMDS3s9z9iedeyU7qm4HrxaAJ5DKyIXYYXTH--itIK7ihdKtpygVq82qzYL9GXJFbTSpnKKlBFRcEJrACh19x1Y-xQ8YpKK7K91tMSsjahz0kuMC7bQjoyuiydzP09TIE-N_aVFRMaSXHLIl9aCxV1nNuV9kIjD7uN0JjHW_uEEfJo_i3A7PTGOL0OOIe7qOgF5E");
         mRequestHeader.put("Accept","application/json");
 
         Map<String, String> mRequestParams = new HashMap<String, String>();
 
         Type type = new TypeToken<List<Module>>(){}.getType();
 
+        // Request om JSON-bestand op te halen
         GsonRequest<List<Module>> request = new GsonRequest<List<Module>>("http://83.81.251.42/api/resultaten",
                 type, mRequestHeader, mRequestParams, new Response.Listener<List<Module>>() {
 
@@ -158,10 +177,12 @@ public class LoginActivity extends AppCompatActivity {
 
         }, new Response.ErrorListener(){
             @Override
-            public void onErrorResponse(VolleyError error){
+            public void onErrorResponse(VolleyError error){ // Fout met het ophalen van het JSON-bestand, laat het zien in een toast
                 Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_LONG).show();
             }
         });
+
+        // Toevoegen voor HTTP-request
         VolleyHelper.getInstance(this).addToRequestQueue(request);
     }
 }

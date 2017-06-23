@@ -30,19 +30,15 @@ import static com.example.imtpmd1617.studievoortgang.DatabaseHelper.getHelper;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+    /* Adapter die fragments faciliteert
+       Fragments worden in het geheugen geplaatst, en houdt ze daar.
+       Omdat we weinig fragments gebruiken met niet veel content hebben hiervoor gekozen
+       in plaats van de StatePagerAdapter, die de fragments elke keer bij het verlaten van
+       een fragment uit het geheugen haalt.
      */
+
     private ProfilePagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
 
     @Override
@@ -53,18 +49,13 @@ public class ProfileActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new ProfilePagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
     }
-
-
 
 }
